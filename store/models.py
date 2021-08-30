@@ -1,18 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models.expressions import F
+from userapp.models import User
 
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True, blank=True)
-    email = models.CharField(max_length=200)
-
+    
     def __str__(self):
-        return self.name
+        return self.user.first_name + ' ' + self.user.last_name
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
-    digital = models.BooleanField(default=False,null=True, blank=True)
+    active = models.BooleanField(default=True,null=True, blank=True)
+    quantity = models.PositiveBigIntegerField(default=1)
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
@@ -28,13 +29,13 @@ class Product(models.Model):
 
     
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     date_order = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=True)
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.customer.name
     
     @property
     def get_cart_total(self):

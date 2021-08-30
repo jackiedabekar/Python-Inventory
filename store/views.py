@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 import json
+from django.contrib.auth.decorators import login_required
+
 
 def store(request):
     if request.user.is_authenticated:
@@ -14,9 +16,10 @@ def store(request):
         order = {'get_cart_items': 0, 'get_cart_total': 0}
         cartItems = order['get_cart_items']
     products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
+    context = {'products': products, 'cartItems': cartItems, 'shipping': False }
     return render(request, 'store/store.html', context)
 
+@login_required
 def cart(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -27,9 +30,10 @@ def cart(request):
         items = []
         order = {'get_cart_items': 0, 'get_cart_total': 0}
         cartItems = order['get_cart_items']
-    context = {'items' : items, 'order': order, 'cartItems': cartItems}
+    context = {'items' : items, 'order': order, 'cartItems': cartItems,'shipping': False}
     return render(request, 'store/cart.html', context)
 
+@login_required
 def checkout(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -40,10 +44,10 @@ def checkout(request):
         items = []
         order = {'get_cart_items': 0, 'get_cart_total': 0}
         cartItems = order['get_cart_items']
-    context = {'items' : items, 'order': order, 'cartItems': cartItems}
+    context = {'items' : items, 'order': order, 'cartItems': cartItems, 'shipping': False}
     return render(request, 'store/checkout.html', context)
 
-
+@login_required
 def updateItem(request):
 	data = json.loads(request.body)
 	productId = data['productId']

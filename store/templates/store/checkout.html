@@ -39,7 +39,8 @@
             </div>
             <br>
             <div class="box-element hidden" id="payment-info">
-                <small>PayTm Options</small>
+                <img src="{% static 'images/Paytm.png' %}" width="90", height="90">
+                <button id="make-payment">Make Payment</button>
             </div>
         </div>
         <div class="col-lg-6">
@@ -52,13 +53,45 @@
                 <div class="cart-row">
                     <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
                     <div style="flex:2"><p>{{ item.product.name }}</p></div>
-                    <div style="flex:1"><p>{{ item.product.price }}</p></div>
+                    <div style="flex:1"><p>&#8377; {{ item.product.price|floatformat:2 }}</p></div>
                     <div style="flex:1"><p>X {{ item.quantity }}</p></div>
                 </div> 
                 {% endfor %}
                 <h5>Items: {{ order.get_cart_items }}</h5>
-                <h5>Total: {{ order.get_cart_total|floatformat:2 }}</h5>
+                <h5>Total: &#8377; {{ order.get_cart_total|floatformat:2 }}</h5>
             </div> 
         </div>
     </div>
+    <script type="text/javascript">
+        var shipping = '{{ order.shipping }}'
+        var total = '{{ order.get_cart_total|floatformat:2 }}'
+        if(shipping == 'False'){
+            document.getElementById("shipping-info").innerHTML = ''
+        }
+
+        if (user != 'AnonymousUser'){
+		 	document.getElementById('user-info').innerHTML = ''
+		 }
+
+		if (shipping == 'False' && user != 'AnonymousUser'){
+				document.getElementById('form-wrapper').classList.add("hidden");
+			    document.getElementById('payment-info').classList.remove("hidden");
+		}
+
+        var form = document.getElementById('form')
+        form.addEventListener('submit', function(e){
+            e.preventDefault()
+            console.log('Form Submitted...')
+            document.getElementById('form-button').classList.add('hidden')
+            document.getElementById('payment-info').classList.remove('hidden')
+        })
+
+        document.getElementById("make-payment").addEventListener('click', function(e){
+            submitFormData()
+        })
+
+        function submitFormData(){
+            console.log('Button cloicked....')
+        }
+    </script>
 {% endblock content %}

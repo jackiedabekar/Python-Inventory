@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
+    'userapp',
+    'crispy_forms'
 
 ]
 
@@ -115,6 +117,11 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+AUTH_USER_MODEL = 'userapp.User'
+
+LOGIN_REDIRECT_URL = 'store:store'
+LOGIN_URL = 'userapp:login'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
