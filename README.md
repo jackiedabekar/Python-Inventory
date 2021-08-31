@@ -1,3 +1,7 @@
+![](https://gitlab.com/deepakdabekar/product-inventory/-/blob/master/static/images/Demo.gif)
+
+<hr>
+
 # Task To Manage Product In Inventory
 <hr> 
 
