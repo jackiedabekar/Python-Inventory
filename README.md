@@ -1,4 +1,4 @@
-![giff]('https://gitlab.com/deepakdabekar/product-inventory/-/blob/master/static/images/Demo.gif')
+![giff](static/images/Demo.gif)
 # Task To Manage Product In Inventory
 <hr> 
 
