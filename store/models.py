@@ -16,6 +16,9 @@ class Product(models.Model):
     quantity = models.PositiveBigIntegerField(default=1)
     image = models.ImageField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
